@@ -1,0 +1,6 @@
+000-assets/key.json
+000-assets/credentials
+key.json
+credentials
+**/key.json
+**/credentials
