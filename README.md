@@ -22,8 +22,7 @@ Colección de **boilerplates listos para producción** en Terraform + Google Clo
 markitos-terraform-gcp/
 ├── 001-welcome/            # 🎉 Boilerplate básico - Hello World
 ├── 002-gcp-bucket/         # 💾 Storage con Cloud Storage
-├── 000-assets/             # 🔒 Credenciales compartidas (ignorado)
-└── [futuros-boilerplates]  # 🚀 Networking, Security, etc.
+└── 000-assets/             # 🔒 Credenciales compartidas (ignorado)
 ```
 
 ---
@@ -87,11 +86,11 @@ Todos los boilerplates aplican tags consistentes:
 
 ```hcl
 {
-  environment = "dev|prod|pre|staging|qa"    # Environment target
+  environment = "dev"                     # Environment target
   creator     = "Marco Antonio - markitos - DevsecopsKulture"
-  category    = "networking|security|..."     # Business area
-  managed_by  = "terraform"                   # Always terraform
-  project     = "your-gcp-project-id"        # GCP project
+  category    = "networking"              # Business area
+  managed_by  = "terraform"              # Always terraform
+  project     = "your-gcp-project-id"   # GCP project
 }
 ```
 
@@ -100,41 +99,26 @@ Todos los boilerplates aplican tags consistentes:
 ## 🔧 **Variables estándar**
 
 ### **En todos los boilerplates:**
-- `environment_target` ⚡ **Requerida** - Entorno de despliegue
-- `group_category` ⚡ **Requerida** - Categoría del grupo de recursos
-- `resource_creator_information` ✅ **Default** - Información del creador
-- `project_identifier` ✅ **Default** - ID del proyecto GCP
-- `deployment_region` ✅ **Default** - Región de despliegue
+- `environment_target` - Entorno de despliegue (requerida)
+- `group_category` - Categoría del grupo de recursos (requerida)
+- `resource_creator_information` - Información del creador (default)
+- `project_identifier` - ID del proyecto GCP (default)
+- `deployment_region` - Región de despliegue (default)
 
 ### **Filosofía de variables:**
-- 🚫 **Sin tfvars** - Menos complejidad
-- 🌱 **Env vars friendly** - `TF_VAR_*` para overrides
-- 🔍 **Validaciones robustas** - Previene errores
-- 📝 **Defaults inteligentes** - Solo lo esencial es requerido
+- Sin tfvars por defecto
+- Variables de entorno para overrides
+- Validaciones incluidas
+- Defaults para valores comunes
 
 ---
 
-## 🎨 **Mejores prácticas aplicadas**
+## **Mejores prácticas aplicadas**
 
-### **✅ Naming consistente**
-- Variables descriptivas y semánticas
-- Sin prefijos innecesarios (`gcp_`)
-- Fácil de entender y mantener
-
-### **✅ Seguridad incluida**
-- Gitignore completo automático
-- Credenciales protegidas
-- Archivos sensibles nunca en git
-
-### **✅ Estructura modular**
-- Archivos separados por responsabilidad
-- Reutilización entre boilerplates
-- Fácil extensión y personalización
-
-### **✅ Documentación viviente**
-- README en cada boilerplate
-- Ejemplos prácticos incluidos
-- Casos de uso documentados
+- Naming consistente y descriptivo
+- Seguridad incluida con gitignore automático
+- Estructura modular y reutilizable
+- Documentación completa en cada boilerplate
 
 ---
 
@@ -153,20 +137,6 @@ export TF_VAR_environment_target=prod
 export TF_VAR_group_category=platform
 terraform plan
 ```
-
----
-
-## 🎯 **Roadmap de boilerplates**
-
-### **Próximos boilerplates:**
-- 🌐 **003-networking** - VPC, subnets, firewall rules
-- 🔐 **004-security** - IAM, service accounts, secrets
-- 💾 **005-database** - Cloud SQL, memstore
-- 📊 **006-monitoring** - Logging, metrics, alerting
-- 🔄 **007-cicd** - Cloud Build, triggers, pipelines
-
-### **¿Necesitas algo específico?**
-Cada boilerplate se diseña siguiendo **"El camino del artesano"** - calidad, simplicidad y excelencia técnica.
 
 ---
 
