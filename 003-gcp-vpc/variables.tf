@@ -7,7 +7,7 @@ variable "credentials_file_path" {
 variable "project_identifier" {
   description = "Google Cloud Platform project unique identifier"
   type        = string
-  default     = "terraform-markitos"
+  default     = "markitos-terraform"
 }
 
 variable "project_name" {

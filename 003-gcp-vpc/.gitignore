@@ -1,0 +1,51 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+.terraform/
+.terraform.lock.hcl
+terraform.tfplan
+terraform.tfplan.*
+crash.log
+crash.*.log
+
+# GCP credentials - CRITICAL SECURITY
+key.json
+*.json
+!terraform.tfvars.json.example
+service-account*.json
+*-key.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Backup files
+*.backup
+*.bak
+*.tmp
+
+# Cache directories
+node_modules/
+.cache/
