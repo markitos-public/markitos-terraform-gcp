@@ -4,10 +4,11 @@ resource "google_service_account" "gke_nodepool_sa" {
 }
 
 resource "google_container_cluster" "gke_cluster" {
-  name                     = "${local.prefix}-gke-cluster"
-  location                 = local.cluster_zone_location
-  network                  = google_compute_network.vpc_network.self_link
-  subnetwork               = google_compute_subnetwork.subnet.self_link
+  name       = "${local.prefix}-gke-cluster"
+  location   = local.cluster_zone_location
+  network    = google_compute_network.vpc_network.self_link
+  subnetwork = google_compute_subnetwork.subnet.self_link
+
   deletion_protection      = local.deletion_cluster_protection
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -26,7 +27,7 @@ resource "google_container_cluster" "gke_cluster" {
   master_authorized_networks_config {
     cidr_blocks {
       display_name = "Master Authorized Network"
-      cidr_block   = "0.0.0.0/0"
+      cidr_block   = local.bastion_internal_ip_range
     }
   }
 
@@ -47,7 +48,7 @@ resource "google_container_node_pool" "gke_node_pool" {
 
 
   node_config {
-    preemptible     = false
+    preemptible     = true
     machine_type    = "e2-medium"
     tags            = local.common_tags
     service_account = google_service_account.gke_nodepool_sa.email
@@ -64,26 +65,3 @@ resource "google_container_node_pool" "gke_node_pool" {
   ]
 }
 
-resource "google_compute_router" "router" {
-  name    = "${local.prefix}-${var.region}-router"
-  region  = var.region
-  network = google_compute_network.vpc_network.self_link
-
-  depends_on = [google_compute_network.vpc_network]
-}
-
-resource "google_compute_router_nat" "nat" {
-  name   = "${local.prefix}-${var.region}-nat"
-  router = google_compute_router.router.name
-  region = google_compute_router.router.region
-
-  nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-
-  log_config {
-    enable = true
-    filter = "ERRORS_ONLY"
-  }
-
-  depends_on = [google_compute_router.router]
-}

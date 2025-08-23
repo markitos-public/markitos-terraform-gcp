@@ -65,3 +65,34 @@ Puedes adaptar los stacks según tus necesidades y contribuir mejoras siguiendo 
 > *"La simplicidad es la máxima sofisticación"* — Leonardo da Vinci
 
 ---
+
+## 🔐 Acceso seguro por IAP al bastion y a los nodos privados
+
+Cuando todo el clúster y los nodos son privados, la forma recomendada de acceso es mediante el bastion usando IAP (Identity-Aware Proxy). Desde el bastion, puedes acceder por SSH a los nodos privados.
+
+Conéctate al bastion usando:
+
+```bash
+gcloud compute ssh --zone=us-central1-a markitos-es-dev-devops-bastion --tunnel-through-iap --project=markitos-es-ops
+```
+
+Una vez dentro del bastion, podrás hacer SSH a los nodos privados del clúster, siempre que tengas las claves y permisos necesarios.
+
+### 📦 Copiar archivos al bastion usando IAP
+
+Puedes enviar uno o más ficheros al bastion con:
+
+```bash
+gcloud compute scp --zone=us-central1-a --tunnel-through-iap --project=markitos-es-ops archivo1.txt archivo2.sh markitos-es-dev-devops-bastion:~/
+```
+
+Esto copiará los archivos al directorio home del bastion. Puedes usar rutas relativas o absolutas según necesites.
+
+**Requisitos:**
+- El usuario debe tener el rol `IAP-secured Tunnel User` y permisos de acceso SSH en el proyecto.
+- El bastion debe estar en la misma VPC/subred que los nodos privados.
+- Las reglas de firewall deben permitir el tráfico SSH interno (puerto 22) desde el bastion a los nodos.
+
+**Referencia:** [Documentación oficial de IAP para SSH](https://cloud.google.com/iap/docs/using-tcp-forwarding)
+
+---

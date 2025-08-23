@@ -7,8 +7,8 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "project-name-terraform-states"
-    prefix = "dev/project-name-devops"
+    bucket = "markitos-es-terraform-states"
+    prefix = "dev/markitos-es-devops"
   }
   
   required_version = ">= 1.12.0, < 2.0.0"

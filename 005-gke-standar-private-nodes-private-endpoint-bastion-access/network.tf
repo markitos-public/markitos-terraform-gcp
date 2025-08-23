@@ -1,8 +1,8 @@
 resource "google_compute_network" "vpc_network" {
   name                    = "${local.prefix}-vpc"
   description             = "VPC network for the ${var.environment} environment managed by ${var.team} team"
-  auto_create_subnetworks = false
   project                 = var.project_id
+  auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "subnet" {
@@ -27,19 +27,3 @@ resource "google_compute_subnetwork" "subnet" {
   depends_on = [google_compute_network.vpc_network]
 }
 
-resource "google_compute_firewall" "firewall_rules" {
-  description = "Default firewall rules for the ${var.environment} environment managed by ${var.team} team"
-  name        = "${local.prefix}-allow-ssh"
-  network     = google_compute_network.vpc_network.id
-  project     = var.project_id
-
-  allow {
-    protocol = "tcp"
-    ports    = var.firewall_ports
-  }
-
-  source_ranges = ["0.0.0.0/0"]
-  target_tags   = local.network_ssh_tags
-  direction     = "INGRESS"
-  priority      = 1000
-}

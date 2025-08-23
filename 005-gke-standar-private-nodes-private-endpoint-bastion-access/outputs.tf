@@ -3,16 +3,6 @@ output "prefix" {
   value       = local.prefix
 }
 
-output "backend_state_bucket_name" {
-  description = "The name of the backend bucket in this environment."
-  value       = "markitos-es-gcp-terraform-states"
-}
-
-output "backend_state_bucket_prefix" {
-  description = "The name of the backend bucket for Terraform states."
-  value       = "dev/markitos-es-gcp-devops"
-}
-
 output "gke_service_account_email" {
   description = "The email of the GKE service account."
   value       = google_service_account.gke_nodepool_sa.email
@@ -71,4 +61,9 @@ output "gke_node_pool_version" {
 output "gke_available_zones" {
   description = "values of available zones in the project"
   value       = data.google_compute_zones.available_zones.names
+}
+
+output "bastion_zone" {
+  description = "the zone where the bastion host is deployed"
+  value       = google_compute_instance.bastion.zone
 }

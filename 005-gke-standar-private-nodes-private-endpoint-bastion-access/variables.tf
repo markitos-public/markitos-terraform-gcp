@@ -10,13 +10,13 @@ variable "region" {
 variable "project_id" {
   description = "The GCP project ID where the resources will be created."
   type        = string
-  default     = "project-name-ops"
+  default     = "markitos-es-ops"
 }
 
 variable "project" {
   description = "The name of the project."
   type        = string
-  default     = "project-name"
+  default     = "markitos-es"
 }
 
 variable "environment" {
@@ -56,24 +56,42 @@ variable "firewall_ports" {
 variable "subnet_ip_range" {
   description = "The IP range for the subnet in CIDR notation."
   type        = string
-  default     = "10.129.0.0/21"
+  default     = "10.10.0.0/16"
 }
 
 variable "pods_ip_range" {
   description = "The IP range for the pods in CIDR notation."
   type        = string
-  default     = "10.11.0.0/21"
+  default     = "10.1.0.0/21"
 }
 
 variable "services_ip_range" {
   description = "The IP range for the services in CIDR notation."
   type        = string
-  default     = "10.12.0.0/21"
+  default     = "10.2.0.0/21"
 }
 
 variable "master_ip_range" {
   description = "The IP range for the master in CIDR notation."
   type        = string
-  default     = "10.13.0.0/28"
+  default     = "10.3.0.0/28"
+}
+
+variable "iap_source_ranges" {
+  description = "List of source ranges for Identity-Aware Proxy (IAP) access."
+  type        = list(string)
+  default     = ["35.235.240.0/20"]
+}
+
+variable "bastion_zone" {
+  description = "The zone where the bastion host will be deployed."
+  type        = string
+  default     = "us-central1-a"
+}
+
+variable "bastion_internal_ip_address" {
+  description = "The internal IP address for the bastion host."
+  type        = string
+  default     = "10.10.10.10"
 }
 #:[.'.]:>- --------------------------------------------------

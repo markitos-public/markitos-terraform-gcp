@@ -1,4 +1,4 @@
-GOOGLE_APPLICATION_CREDENTIALS := /path/to/key.json
+GOOGLE_APPLICATION_CREDENTIALS := ../000-nogit/markitos-es-terraform-sa.json
 
 init:
 	@GOOGLE_APPLICATION_CREDENTIALS="$(GOOGLE_APPLICATION_CREDENTIALS)" terraform init
