@@ -174,3 +174,11 @@ Reemplaza los valores entre `< >` por los datos de tu proyecto y bucket.
 Marco Antonio - markitos devsecops kulture
 El Camino del Artesano
 
+---
+
+## Licencia
+
+Uso interno y educativo.
+
+---
+

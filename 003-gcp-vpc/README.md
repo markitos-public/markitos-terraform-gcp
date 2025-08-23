@@ -62,3 +62,11 @@ Es necesario crear un Service Account en GCP, asignarle un rol personalizado con
 Marco Antonio - markitos
 DevSecOps Kulture
 El Camino del Artesano
+
+---
+
+## Licencia
+
+Uso interno y educativo.
+
+---

@@ -96,6 +96,12 @@ gcloud compute scp --zone=us-central1-a --tunnel-through-iap --project=markitos-
 ssh usuario@ip_privada_nodo
 ```
 
+O también puedes usar `gcloud compute ssh` desde el bastion, especificando la IP interna del nodo:
+
+```bash
+gcloud compute ssh nombre-nodo --zone us-central1-a --internal-ip --project=markitos-es-ops
+```
+
 Asegúrate de tener la clave SSH correspondiente en el bastion y que las reglas de firewall permitan el acceso.
 
 **Requisitos:**
@@ -213,6 +219,7 @@ El Camino del Artesano
 
 ## Licencia
 
-Uso interno y educativo.
+MIT License  
+Este proyecto se distribuye bajo la licencia MIT. Puedes usar, modificar, copiar y distribuir el código libremente, con o sin fines comerciales, siempre que se conserve el aviso de copyright y la licencia original.
 
 ---
