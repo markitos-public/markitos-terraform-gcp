@@ -1,0 +1,83 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: markitos.005-gke-terraform-sc
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: markitos.005-gke-terraform-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: markitos.005-gke-terraform-sc
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: markitos.005-gke-terraform-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: markitos.005-gke-terraform-database
+  template:
+    metadata:
+      labels:
+        app: markitos.005-gke-terraform-database
+    spec:
+      containers:
+        - name: markitos.005-gke-terraform-database
+          image: us-central1-docker.pkg.dev/markitos-es-ops/markitos-public-images/markitos.005-gke-terraform-database:1.0.0
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: markitos.005-gke-terraform-db-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: markitos.005-gke-terraform-db-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: db-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: markitos.005-gke-terraform-pvc
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: markitos.005-gke-terraform-database
+spec:
+  type: NodePort
+  selector:
+    app: markitos.005-gke-terraform-database
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: markitos.005-gke-terraform-db-secret
+type: Opaque
+stringData:
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin

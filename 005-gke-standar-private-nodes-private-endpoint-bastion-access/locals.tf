@@ -1,5 +1,6 @@
 locals {
   prefix                      = "${var.project}-${var.environment}-${var.team}"
+  region                      = var.region
   service_account_path        = "${path.module}/../000-nogit/markitos-es-terraform-sa.json"
   network_ssh_tags            = [for tag in var.network_ssh_tags : "${local.prefix}-${tag}"]
   deletion_cluster_protection = var.environment == "prod" ? true : false

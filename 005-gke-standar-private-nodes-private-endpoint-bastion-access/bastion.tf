@@ -28,8 +28,16 @@ resource "google_compute_instance" "bastion" {
   metadata_startup_script = <<-EOT
     #!/bin/bash
     sudo apt update
-    sudo apt install -y google-cloud-sdk-gke-gcloud-auth-plugin kubectl telnet
+    sudo apt install -y google-cloud-sdk-gke-gcloud-auth-plugin kubectl
     sudo apt update
     sudo apt install -y gnupg software-properties-common
+    echo "Instalando Terraform 1.12.2 en ~/.local/bin ..."
+    mkdir -p ~/.local/bin
+    wget https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip -O /tmp/terraform.zip
+    unzip -o /tmp/terraform.zip -d ~/.local/bin
+    chmod +x ~/.local/bin/terraform
+    rm /tmp/terraform.zip
+    echo "Terraform instalado correctamente en ~/.local/bin"
+    echo 'export PATH=$$PATH:$$HOME/.local/bin' >> $$HOME/.bashrc && source $$HOME/.bashrc && echo "All done!"
   EOT
 }

@@ -1,6 +1,6 @@
 resource "google_compute_router" "router" {
-  name    = "${local.prefix}-${var.region}-router"
-  region  = var.region
+  name    = "${local.prefix}-${local.region}-router"
+  region  = local.region
   network = google_compute_network.vpc_network.self_link
 
   depends_on = [google_compute_network.vpc_network]

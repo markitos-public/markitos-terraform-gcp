@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = ">= 6.0.0"
+      version = ">= 6.0.0, < 7.0.0"
     }
   }
 
@@ -10,7 +10,7 @@ terraform {
     bucket = "markitos-es-terraform-states"
     prefix = "dev/markitos-es-devops"
   }
-  
+
   required_version = ">= 1.12.0, < 2.0.0"
 }
 
