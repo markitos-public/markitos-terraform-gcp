@@ -74,32 +74,37 @@ make apply
 
 ---
 
-## Acceso seguro por IAP al bastion y a los nodos privados
+## 🔐 Acceso seguro por IAP al bastion y a los nodos privados
 
-Cuando el clúster y los nodos son privados, el acceso recomendado es mediante el bastion usando IAP (Identity-Aware Proxy). Desde el bastion puedes acceder por SSH a los nodos privados.
+Cuando todo el clúster y los nodos son privados, la forma recomendada de acceso es mediante el bastion usando IAP (Identity-Aware Proxy). Desde el bastion, puedes acceder por SSH a los nodos privados.
 
-**Conexión al bastion:**
+Conéctate al bastion usando:
 
 ```bash
-gcloud compute ssh --zone=us-central1-a markitos-es-dev-devops-bastion --tunnel-through-iap --project=markitos-es-ops
+gcloud compute ssh markitos-es-dev-devops-bastion \
+    --zone=us-central1-a \
+    --project=markitos-es-ops \
+    --tunnel-through-iap
 ```
 
-**Copiar archivos al bastion:**
+Una vez dentro del bastion, podrás hacer SSH a los nodos privados del clúster, siempre que tengas las claves y permisos necesarios.
+
+### 📦 Copiar archivos al bastion usando IAP
+
+Puedes enviar uno o más ficheros al bastion con:
 
 ```bash
-gcloud compute scp --zone=us-central1-a --tunnel-through-iap --project=markitos-es-ops archivo1.txt archivo2.sh markitos-es-dev-devops-bastion:~/
-```
+gcloud compute scp --zone=us-central1-a \
+    --tunnel-through-iap \
+    --project=markitos-es-ops \
+    archivo1.txt archivo2.sh \
+    markitos-es-dev-devops-bastion:~/
 
-**SSH a los nodos privados desde el bastion:**
-
-```bash
-ssh usuario@ip_privada_nodo
-```
-
-O también puedes usar `gcloud compute ssh` desde el bastion, especificando la IP interna del nodo:
-
-```bash
-gcloud compute ssh nombre-nodo --zone us-central1-a --internal-ip --project=markitos-es-ops
+gcloud compute scp --recurse \                                                                                                      manifests/  \
+    markitos-es-dev-devops-bastion:~/ \
+    --zone=us-central1-a \
+    --project=markitos-es-ops \
+    --tunnel-through-iap
 ```
 
 Asegúrate de tener la clave SSH correspondiente en el bastion y que las reglas de firewall permitan el acceso.
