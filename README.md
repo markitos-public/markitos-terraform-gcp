@@ -73,7 +73,10 @@ Cuando todo el clúster y los nodos son privados, la forma recomendada de acceso
 Conéctate al bastion usando:
 
 ```bash
-gcloud compute ssh --zone=us-central1-a markitos-es-dev-devops-bastion --tunnel-through-iap --project=markitos-es-ops
+gcloud compute ssh markitos-es-dev-devops-bastion \
+    --zone=us-central1-a \
+    --project=markitos-es-ops \
+    --tunnel-through-iap
 ```
 
 Una vez dentro del bastion, podrás hacer SSH a los nodos privados del clúster, siempre que tengas las claves y permisos necesarios.
@@ -83,7 +86,17 @@ Una vez dentro del bastion, podrás hacer SSH a los nodos privados del clúster,
 Puedes enviar uno o más ficheros al bastion con:
 
 ```bash
-gcloud compute scp --zone=us-central1-a --tunnel-through-iap --project=markitos-es-ops archivo1.txt archivo2.sh markitos-es-dev-devops-bastion:~/
+gcloud compute scp --zone=us-central1-a \
+    --tunnel-through-iap \
+    --project=markitos-es-ops \
+    archivo1.txt archivo2.sh \
+    markitos-es-dev-devops-bastion:~/
+
+gcloud compute scp --recurse \                                                                                                      manifests/  \
+    markitos-es-dev-devops-bastion:~/ \
+    --zone=us-central1-a \
+    --project=markitos-es-ops \
+    --tunnel-through-iap
 ```
 
 Esto copiará los archivos al directorio home del bastion. Puedes usar rutas relativas o absolutas según necesites.
