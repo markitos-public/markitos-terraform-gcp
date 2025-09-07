@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   postgres:
     image: postgres:15
@@ -24,5 +23,7 @@ services:
       - backend
     ports:
       - "8081:8081"
+    environment:
+      - BACKEND_URL=http://localhost:8080/api/ping
 volumes:
   pgdata:

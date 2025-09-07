@@ -3,12 +3,13 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"log"
 	"net"
 	"net/http"
 	"os"
 	"time"
 
-	_ "github.com/lib/pq"
+	_ "github.com/glebarez/sqlite"
 )
 
 type Ping struct {
@@ -18,17 +19,27 @@ type Ping struct {
 }
 
 func main() {
-	connStr := "postgres://admin:admin@postgres:5432/postgres?sslmode=disable"
-	db, err := sql.Open("postgres", connStr)
+	dbPath := "/tmp/app.db"
+	db, err := sql.Open("sqlite", dbPath)
 	if err != nil {
 		os.Exit(1)
 	}
 	defer db.Close()
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS pings (id SERIAL PRIMARY KEY, ip TEXT, createdAt TIMESTAMP NOT NULL)`)
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS pings (id INTEGER PRIMARY KEY AUTOINCREMENT, ip TEXT, createdAt DATETIME NOT NULL)`)
 	if err != nil {
 		os.Exit(1)
 	}
+
 	http.HandleFunc("/api/ping", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
 		ip, _, _ := net.SplitHostPort(r.RemoteAddr)
 		createdAt := time.Now().UTC()
 		var id int
@@ -38,6 +49,7 @@ func main() {
 			return
 		}
 		resp := map[string]interface{}{"pong": createdAt}
+		log.Println("BACKEND:", resp)
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(resp)
 	})

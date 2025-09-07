@@ -1,8 +1,8 @@
-start:
-	docker-compose up --build -d
+start: stop
+	docker compose up --build -d
 
 stop:
-	docker-compose down
+	docker compose down
 	
 
 publish:
