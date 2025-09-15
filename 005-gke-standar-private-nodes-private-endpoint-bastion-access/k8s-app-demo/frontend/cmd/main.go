@@ -46,6 +46,7 @@ type PageData struct {
 func main() {
 	backendURL := os.Getenv("BACKEND_URL")
 	log.Println("final Backend URL:", backendURL)
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data := PageData{BackendURL: backendURL}
 		if r.Method == http.MethodPost {
@@ -54,6 +55,7 @@ func main() {
 				var res map[string]interface{}
 				json.NewDecoder(resp.Body).Decode(&res)
 				resp.Body.Close()
+
 				if v, ok := res["pong"]; ok {
 					if t, ok := v.(string); ok {
 						data.Pong = t
@@ -66,5 +68,6 @@ func main() {
 		tmpl := template.Must(template.New("").Parse(tpl))
 		tmpl.Execute(w, data)
 	})
+
 	http.ListenAndServe(":8081", nil)
 }

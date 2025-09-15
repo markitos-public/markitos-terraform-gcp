@@ -10,7 +10,7 @@ variable "region" {
 variable "project_id" {
   description = "The GCP project ID where the resources will be created."
   type        = string
-  default     = "markitos-es-ops"
+  default     = "markitos-es-gcp-infrastructure"
 }
 
 variable "project" {

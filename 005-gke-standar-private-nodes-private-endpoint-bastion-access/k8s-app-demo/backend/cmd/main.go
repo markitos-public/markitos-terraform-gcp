@@ -53,5 +53,7 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(resp)
 	})
+
+	log.Println("Starting backend server on :8080, using DB at", dbPath)
 	http.ListenAndServe(":8080", nil)
 }
