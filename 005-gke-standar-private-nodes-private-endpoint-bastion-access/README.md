@@ -83,7 +83,7 @@ Conéctate al bastion usando:
 ```bash
 gcloud compute ssh markitos-es-dev-devops-bastion \
     --zone=us-central1-a \
-    --project=markitos-es-ops \
+    --project=markitos-es-gcp-infrastructure \
     --tunnel-through-iap
 ```
 
@@ -96,14 +96,14 @@ Puedes enviar uno o más ficheros al bastion con:
 ```bash
 gcloud compute scp --zone=us-central1-a \
     --tunnel-through-iap \
-    --project=markitos-es-ops \
+    --project=markitos-es-gcp-infrastructure \
     archivo1.txt archivo2.sh \
     markitos-es-dev-devops-bastion:~/
 
 gcloud compute scp --recurse \                                                                                                      manifests/  \
     markitos-es-dev-devops-bastion:~/ \
     --zone=us-central1-a \
-    --project=markitos-es-ops \
+    --project=markitos-es-gcp-infrastructure \
     --tunnel-through-iap
 ```
 
